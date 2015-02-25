@@ -31,6 +31,9 @@ There is code to do a soft fade up/down to the desired level.  Once
 the desired level is reached, it publishes a message back on
 "/arduino/lights/status/[1-4]" with the current value.
 
+It also subscribes to "/arduino/lights/all".  This will set the
+brighness of all channels.
+
 Once I'm into the main loop, if the client should for some reason
 become disconnected I enter a while(1) loops and let the watchdog
 timer reboot.  This allows it to reconnect should anything happen.
