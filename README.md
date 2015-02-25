@@ -21,13 +21,19 @@ as I'm just driving LEDs insead of noisy motors.)
 I'm also playing with MQTT lately.  I already have a broker setup
 (yes, I've changed the password.  D'OH!  :)  The Arduino comes up
 and requests a DHCP address then connects to the MQTT server and
-sends a "hello" message.
+sends a "hello" message.  I use the Arduino watchdog timer to reboot
+if it fails to get a DHCP address or fails to connect to the MQTT
+broker.
 
-It the subscribes to "/arduino/lights/[1-4]".  Channel 1 is ignored
+It then subscribes to "/arduino/lights/[1-4]".  Channel 1 is ignored
 in the code as it would break the Ethernet if I tried to use it.
 There is code to do a soft fade up/down to the desired level.  Once
 the desired level is reached, it publishes a message back on
 "/arduino/lights/status/[1-4]" with the current value.
+
+Once I'm into the main loop, if the client should for some reason
+become disconnected I enter a while(1) loops and let the watchdog
+timer reboot.  This allows it to reconnect should anything happen.
 
 My eventual goal is to write a JQuery page that will connect to
 MQTT and allow me to adjust the lights.  When I get to that point,
